@@ -9,13 +9,15 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($posts as $post)
             <tr>
-                <td scope="row">1</td>
+                <td scope="row">{{ $post->id }}</td>
                 <td>
-                    <a href="">title</a>
+                    <a href="">{{ $post->subject }}</a>
                 </td>
-                <td>2019-12-09</td>
+                <td>{{ $post->created_at }}</td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 @endsection

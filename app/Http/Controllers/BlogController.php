@@ -14,7 +14,9 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return view('blog.index');
+        $blog = new Blog;
+        $posts = $blog->paginate();
+        return view('blog.index', ['posts' => $posts]);
     }
 
     /**
@@ -35,7 +37,11 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $blog = new Blog;
+        $blog->subject = $request->subject;
+        $blog->content = $request->content;
+        $blog->save();
+        return redirect()->route('blog.index');
     }
 
     /**
