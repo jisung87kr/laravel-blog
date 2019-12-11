@@ -25,9 +25,7 @@ Route::post('/blog', 'BlogController@store')->name('blog.store');
 
 Route::get('/blog/{id}/edit', 'BlogController@edit')->name('blog.edit');
 
-Route::put('/blog/{id}', function(){
-    return 'update post';
-})->name('blog.update');
+Route::put('/blog/{id}', 'BlogController@update')->name('blog.update');
 
 Route::delete('/blog/{id}', function(){
     return 'delte post';

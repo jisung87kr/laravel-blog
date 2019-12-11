@@ -63,9 +63,11 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Blog $blog)
+    public function edit($id)
     {
-        return view('blog.edit');
+        $blog = new Blog;
+        $post = $blog->findOrFail($id);
+        return view('blog.edit', ['post' => $post]);
     }
 
     /**
@@ -75,9 +77,14 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, $id)
     {
-        //
+        $blog = new Blog;
+        $post = $blog->findOrFail($id);
+        $post->subject = $request->subject;
+        $post->content = $request->content;
+        $post->save();
+        return redirect()->route('blog.show', $post->id);
     }
 
     /**
