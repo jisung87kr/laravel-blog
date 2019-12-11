@@ -37,10 +37,7 @@ class BlogController extends Controller
      */
     public function store(Request $request, Blog $blog)
     {
-        request()->validate([
-            'subject' => 'required',
-            'content' => 'required',
-        ]);
+        $this->postValidate();
 
         $blog->subject = $request->subject;
         $blog->content = $request->content;
@@ -80,10 +77,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
-        request()->validate([
-            'subject' => 'required',
-            'content' => 'required',
-        ]);
+        $this->postValidate();
         $blog->subject = $request->subject;
         $blog->content = $request->content;
         $blog->save();
@@ -100,5 +94,12 @@ class BlogController extends Controller
     {
         $blog->delete();
         return redirect()->route('blog.index');
+    }
+
+    protected function postValidate(){
+        return request()->validate([
+            'subject' => 'required',
+            'content' => 'required',
+        ]);
     }
 }
