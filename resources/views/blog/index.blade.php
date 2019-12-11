@@ -13,7 +13,7 @@
             <tr>
                 <td scope="row">{{ $post->id }}</td>
                 <td>
-                    <a href="">{{ $post->subject }}</a>
+                    <a href="{{ route('blog.show', $post->id)}}">{{ $post->subject }}</a>
                 </td>
                 <td>{{ $post->created_at }}</td>
             </tr>
