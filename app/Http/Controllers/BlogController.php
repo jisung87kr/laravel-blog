@@ -12,7 +12,7 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Blog $blog)
     {
         $blog = new Blog;
         $posts = $blog->paginate();
@@ -35,9 +35,8 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Blog $blog)
     {
-        $blog = new Blog;
         $blog->subject = $request->subject;
         $blog->content = $request->content;
         $blog->save();
@@ -50,11 +49,9 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Blog $blog)
     {
-        $blog = new Blog;
-        $post = $blog->findOrFail($id);
-        return view('blog.show', ['post' => $post]);
+        return view('blog.show', ['post' => $blog]);
     }
 
     /**
@@ -63,11 +60,9 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Blog $blog)
     {
-        $blog = new Blog;
-        $post = $blog->findOrFail($id);
-        return view('blog.edit', ['post' => $post]);
+        return view('blog.edit', ['post' => $blog]);
     }
 
     /**
@@ -77,14 +72,12 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Blog $blog)
     {
-        $blog = new Blog;
-        $post = $blog->findOrFail($id);
-        $post->subject = $request->subject;
-        $post->content = $request->content;
-        $post->save();
-        return redirect()->route('blog.show', $post->id);
+        $blog->subject = $request->subject;
+        $blog->content = $request->content;
+        $blog->save();
+        return redirect()->route('blog.show', $blog->id);
     }
 
     /**
@@ -93,11 +86,9 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Blog $blog)
     {
-        $blog = new Blog;
-        $post = $blog->findOrFail($id);
-        $post->delete();
+        $blog->delete();
         return redirect()->route('blog.index');
     }
 }

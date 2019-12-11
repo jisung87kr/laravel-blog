@@ -19,15 +19,15 @@ Route::get('/blog', 'BlogController@index')->name('blog.index');
 
 Route::get('/blog/create', 'BlogController@create')->name('blog.create');
 
-Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
+Route::get('/blog/{blog}', 'BlogController@show')->name('blog.show');
 
 Route::post('/blog', 'BlogController@store')->name('blog.store');
 
-Route::get('/blog/{id}/edit', 'BlogController@edit')->name('blog.edit');
+Route::get('/blog/{blog}/edit', 'BlogController@edit')->name('blog.edit');
 
-Route::put('/blog/{id}', 'BlogController@update')->name('blog.update');
+Route::put('/blog/{blog}', 'BlogController@update')->name('blog.update');
 
-Route::delete('/blog/{id}', 'BlogController@destroy')->name('blog.destroy');
+Route::delete('/blog/{blog}', 'BlogController@destroy')->name('blog.destroy');
 
 Auth::routes();
 
