@@ -37,6 +37,11 @@ class BlogController extends Controller
      */
     public function store(Request $request, Blog $blog)
     {
+        request()->validate([
+            'subject' => 'required',
+            'content' => 'required',
+        ]);
+
         $blog->subject = $request->subject;
         $blog->content = $request->content;
         $blog->save();
@@ -62,6 +67,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
+        
         return view('blog.edit', ['post' => $blog]);
     }
 
@@ -74,6 +80,10 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
+        request()->validate([
+            'subject' => 'required',
+            'content' => 'required',
+        ]);
         $blog->subject = $request->subject;
         $blog->content = $request->content;
         $blog->save();
