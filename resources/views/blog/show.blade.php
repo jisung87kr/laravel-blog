@@ -10,5 +10,11 @@
     <div class='mt-3'>
         <a name="" id="" class="btn btn-secondary" href="{{ route('blog.index') }}" role="button">목록보기</a>
         <a name="" id="" class="btn btn-primary" href="{{ route('blog.edit', $post->id) }}" role="button">수정하기</a>
+        <a name="" id="" class="btn btn-danger" href="#" role="button" onClick="event.preventDefault();
+                                                                                document.getElementById('delete-form').submit()">삭제하기</a>
+        <form action="{{ route('blog.destroy', $post->id) }}" method='POST' id="delete-form">
+            @csrf
+            @method('DELETE')
+        </form>
     </div>
 @endsection

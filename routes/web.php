@@ -27,10 +27,7 @@ Route::get('/blog/{id}/edit', 'BlogController@edit')->name('blog.edit');
 
 Route::put('/blog/{id}', 'BlogController@update')->name('blog.update');
 
-Route::delete('/blog/{id}', function(){
-    return 'delte post';
-})->name('blog.delte');
-
+Route::delete('/blog/{id}', 'BlogController@destroy')->name('blog.destroy');
 
 Auth::routes();
 

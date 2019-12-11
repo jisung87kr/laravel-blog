@@ -93,8 +93,11 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $blog)
+    public function destroy($id)
     {
-        //
+        $blog = new Blog;
+        $post = $blog->findOrFail($id);
+        $post->delete();
+        return redirect()->route('blog.index');
     }
 }
