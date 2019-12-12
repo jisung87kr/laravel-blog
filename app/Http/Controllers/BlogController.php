@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Blog $blog)
     {
         $blog = new Blog;
@@ -19,79 +16,61 @@ class BlogController extends Controller
         return view('blog.index', ['posts' => $posts]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('blog.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, Blog $blog)
+    public function store(Request $request, Blog $blog, File $file)
     {
         $this->postValidate();
-
         $blog->subject = $request->subject;
         $blog->content = $request->content;
         $blog->save();
+
+        $fname = $request->file('file')->store('files');
+        $file->blog_id = $blog->id;
+        $file->path = $fname;
+        $file->save();
         return redirect()->route('blog.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
     public function show(Blog $blog)
     {
         return view('blog.show', ['post' => $blog]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Blog $blog)
     {
         
         return view('blog.edit', ['post' => $blog]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, Blog $blog, File $file)
     {
         $this->postValidate();
         $blog->subject = $request->subject;
         $blog->content = $request->content;
         $blog->save();
+
+        $files = $blog->files;
+        foreach ($files as $key => $file) {
+            $file->delete();
+            Storage::delete($file->path);
+        }
+        $fname = $request->file('file')->store('files');
+        $file->blog_id = $blog->id;
+        $file->path = $fname;
+        $file->save();
         return redirect()->route('blog.show', $blog->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Blog $blog)
     {
+        $files = $blog->files;
+        foreach ($files as $key => $file) {
+            Storage::delete($file->path);
+        }
         $blog->delete();
         return redirect()->route('blog.index');
     }

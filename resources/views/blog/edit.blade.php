@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <form action="{{ route('blog.update', $post->id) }}" method="post">
+    <form action="{{ route('blog.update', $post->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
@@ -15,7 +15,10 @@
             @error('subject')
             <div class="invalid-feedback">제목을 입력하세요</div>
             @enderror
-            
+        </div>
+        <div class="form-group">
+          <label for="file">file</label>
+          <input type="file" class="form-control-file" name="file" id="file" placeholder="" aria-describedby="fileHelpId">
         </div>
         <div class="form-group">
           <label for="">content</label>

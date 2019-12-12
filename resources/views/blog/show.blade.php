@@ -4,6 +4,7 @@
         <!-- <img class="card-img-top" src="holder.js/100x180/" alt=""> -->
         <div class="card-body">
             <h4 class="card-title">{{ $post->subject }}</h4>
+            <img src="{{ asset($post->files->first()->path) }}" alt="" style="max-width: 100%" class="mt-3 mb-3">
             <p class="card-text">{{ $post->content }}</p>
         </div>
     </div>
