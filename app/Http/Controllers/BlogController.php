@@ -21,19 +21,21 @@ class BlogController extends Controller
         return view('blog.create');
     }
 
-    public function store(Request $request, Blog $blog, File $file)
+    public function store(Request $request, Blog $blog)
     {
-        $blog->create($this->postValidate());
-
+        $stored = $blog->create($this->postValidate());
         if($request->hasfile('file')){
-            if($request->file('file')->isValid()){
-                $fname = $request->file('file')->store('files');
-                $file->blog_id = $blog->id;
-                $file->path = $fname;
-                $file->save();
+            foreach ($request->file('file') as $key => $value) {
+                if($value->isValid()){
+                    $file = new File;
+                    $fname = $value->store('files');
+                    $file->blog_id = $stored->id;
+                    $file->path = $fname;
+                    $file->oriname = $value->getClientOriginalName();
+                    $result = $file->save();
+                }
             }
         }
-        
         return redirect()->route('blog.index');
     }
 

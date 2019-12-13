@@ -4,9 +4,13 @@
         <!-- <img class="card-img-top" src="holder.js/100x180/" alt=""> -->
         <div class="card-body">
             <h4 class="card-title">{{ $post->subject }}</h4>
-            @isset($post->files->first()->path)
-            <img src="{{ asset($post->files->first()->path) }}" alt="" style="max-width: 100%" class="mt-3 mb-3">
-            @endisset
+            @if(count($post->files))
+                <div class="mb-3">
+                @foreach($post->files as $file)
+                    <a href="{{ asset($file->path) }}" class="d-block text-muted">{{ $file->oriname }}</a>
+                @endforeach
+                </div>
+            @endif
             <p class="card-text">{{ $post->content }}</p>
         </div>
     </div>

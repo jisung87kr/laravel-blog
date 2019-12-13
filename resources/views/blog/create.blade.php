@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
           <label for="file">file</label>
-          <input type="file" class="form-control-file" name="file" id="file" placeholder="" aria-describedby="fileHelpId">
+          <input type="file" class="form-control-file" name="file[]" id="file" placeholder="" aria-describedby="fileHelpId" multiple>
         </div>
         <div class="form-group">
           <label for="">content</label>
