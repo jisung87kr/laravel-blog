@@ -23,15 +23,17 @@ class BlogController extends Controller
 
     public function store(Request $request, Blog $blog, File $file)
     {
-        $this->postValidate();
-        $blog->subject = $request->subject;
-        $blog->content = $request->content;
-        $blog->save();
+        $blog->create($this->postValidate());
 
-        $fname = $request->file('file')->store('files');
-        $file->blog_id = $blog->id;
-        $file->path = $fname;
-        $file->save();
+        if($request->hasfile('file')){
+            if($request->file('file')->isValid()){
+                $fname = $request->file('file')->store('files');
+                $file->blog_id = $blog->id;
+                $file->path = $fname;
+                $file->save();
+            }
+        }
+        
         return redirect()->route('blog.index');
     }
 
@@ -48,20 +50,21 @@ class BlogController extends Controller
 
     public function update(Request $request, Blog $blog, File $file)
     {
-        $this->postValidate();
-        $blog->subject = $request->subject;
-        $blog->content = $request->content;
-        $blog->save();
+        $blog->update($this->postValidate());
 
-        $files = $blog->files;
-        foreach ($files as $key => $file) {
-            $file->delete();
-            Storage::delete($file->path);
+        if($request->hasfile('file')){
+            if($request->file('file')->isValid()){
+                $files = $blog->files;
+                foreach ($files as $key => $file) {
+                    $file->delete();
+                    Storage::delete($file->path);
+                }
+                $fname = $request->file('file')->store('files');
+                $file->blog_id = $blog->id;
+                $file->path = $fname;
+                $file->save();
+            }
         }
-        $fname = $request->file('file')->store('files');
-        $file->blog_id = $blog->id;
-        $file->path = $fname;
-        $file->save();
         return redirect()->route('blog.show', $blog->id);
     }
 
