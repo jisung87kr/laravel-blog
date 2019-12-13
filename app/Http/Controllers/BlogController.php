@@ -32,7 +32,7 @@ class BlogController extends Controller
                     $file->blog_id = $stored->id;
                     $file->path = $fname;
                     $file->oriname = $value->getClientOriginalName();
-                    $result = $file->save();
+                    $file->save();
                 }
             }
         }
@@ -50,21 +50,40 @@ class BlogController extends Controller
         return view('blog.edit', ['post' => $blog]);
     }
 
-    public function update(Request $request, Blog $blog, File $file)
+    public function update(Request $request, Blog $blog)
     {
         $blog->update($this->postValidate());
 
-        if($request->hasfile('file')){
-            if($request->file('file')->isValid()){
-                $files = $blog->files;
-                foreach ($files as $key => $file) {
-                    $file->delete();
-                    Storage::delete($file->path);
+        if($request->delete_file){
+            foreach ($request->delete_file as $key => $value) {
+                $file = new File;
+                $target = $file->find($key);
+                if(isset($target->path)){
+                    Storage::delete($target->path);
+                    $target->delete();
                 }
-                $fname = $request->file('file')->store('files');
-                $file->blog_id = $blog->id;
-                $file->path = $fname;
-                $file->save();
+            }
+        }
+        
+        if($request->hasfile('file')){
+            foreach ($request->file('file') as $key => $value) {
+                $file = new File;
+                $oldfile = $file->find($key);
+                if(isset($oldfile->path)){
+                    Storage::delete($oldfile->path);
+                    $oldfile->delete();
+                }
+            }
+
+            foreach ($request->file('file') as $key => $value) {
+                if($value->isValid()){
+                    $file = new File;
+                    $fname = $value->store('files');
+                    $file->blog_id = $blog->id;
+                    $file->path = $fname;
+                    $file->oriname = $value->getClientOriginalName();
+                    $file->save();
+                }
             }
         }
         return redirect()->route('blog.show', $blog->id);

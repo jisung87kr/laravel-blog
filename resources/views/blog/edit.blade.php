@@ -16,9 +16,18 @@
             <div class="invalid-feedback">제목을 입력하세요</div>
             @enderror
         </div>
+        @if(count($post->files))
+          @foreach($post->files as $file)
+          <div class="form-group">
+            <label for="file{{ $loop->index }}">{{ $file->oriname }}</label>
+            <input type="checkbox" class="form-check-input" name="delete_file[{{ $file->id }}]" id="" value="">
+            <input type="file" class="form-control-file" name="file[{{ $file->id }}]" id="file{{ $loop->index }}" placeholder="" aria-describedby="fileHelpId">
+          </div>
+          @endforeach
+        @endif
         <div class="form-group">
-          <label for="file">file</label>
-          <input type="file" class="form-control-file" name="file" id="file" placeholder="" aria-describedby="fileHelpId">
+            <label for="file">file</label>
+            <input type="file" class="form-control-file" name="file[]" id="file" placeholder="" aria-describedby="fileHelpId" multiple>
         </div>
         <div class="form-group">
           <label for="">content</label>
