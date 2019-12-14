@@ -24,6 +24,8 @@
     </div>
     @endforeach
 
+    {{ $posts->links() }}
+
     @if(Auth::check())
     <div class='mt-3'>
         <a name="" id="" class="btn btn-primary" href="{{ route('blog.create') }}" role="button">글쓰기</a>
