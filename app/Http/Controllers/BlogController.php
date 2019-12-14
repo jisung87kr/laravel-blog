@@ -79,6 +79,7 @@ class BlogController extends Controller
                 $file->blog_id = $post->id;
                 $file->path = $fname;
                 $file->oriname = $value->getClientOriginalName();
+                $file->extension = $value->getClientOriginalExtension();
                 $file->save();
             }
         }

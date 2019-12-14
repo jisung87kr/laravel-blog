@@ -18,6 +18,7 @@ class CreateFilesTable extends Migration
             $table->unsignedBigInteger('blog_id');
             $table->text('path');
             $table->text('oriname');
+            $table->text('extension');
             $table->timestamps();
 
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
