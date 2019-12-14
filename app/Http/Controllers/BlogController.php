@@ -24,7 +24,9 @@ class BlogController extends Controller
     public function store(Request $request, Blog $blog)
     {
         $stored = $blog->create($this->postValidate());
-        $this->storeFiles($request->file('file'), $stored);
+        if($request->hasfile('file')){
+            $this->storeFiles($request->file('file'), $stored);
+        }
         return redirect()->route('blog.index');
     }
 
