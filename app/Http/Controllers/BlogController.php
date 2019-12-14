@@ -13,6 +13,9 @@ class BlogController extends Controller
     {
         $blog = new Blog;
         $posts = $blog->paginate();
+        foreach ($posts as $key => $post) {
+            $post->thumb = $post->files->whereIn('extension', ['jpg', 'png', 'gif'])->sortByDesc('id');
+        }
         return view('blog.index', ['posts' => $posts]);
     }
 
