@@ -24,18 +24,7 @@ class BlogController extends Controller
     public function store(Request $request, Blog $blog)
     {
         $stored = $blog->create($this->postValidate());
-        if($request->hasfile('file')){
-            foreach ($request->file('file') as $key => $value) {
-                if($value->isValid()){
-                    $file = new File;
-                    $fname = $value->store('files');
-                    $file->blog_id = $stored->id;
-                    $file->path = $fname;
-                    $file->oriname = $value->getClientOriginalName();
-                    $file->save();
-                }
-            }
-        }
+        $this->storeFiles($request->file('file'), $stored);
         return redirect()->route('blog.index');
     }
 
@@ -55,36 +44,12 @@ class BlogController extends Controller
         $blog->update($this->postValidate());
 
         if($request->delete_file){
-            foreach ($request->delete_file as $key => $value) {
-                $file = new File;
-                $target = $file->find($key);
-                if(isset($target->path)){
-                    Storage::delete($target->path);
-                    $target->delete();
-                }
-            }
+            $this->destroyFiles($request->delete_file);
         }
         
         if($request->hasfile('file')){
-            foreach ($request->file('file') as $key => $value) {
-                $file = new File;
-                $oldfile = $file->find($key);
-                if(isset($oldfile->path)){
-                    Storage::delete($oldfile->path);
-                    $oldfile->delete();
-                }
-            }
-
-            foreach ($request->file('file') as $key => $value) {
-                if($value->isValid()){
-                    $file = new File;
-                    $fname = $value->store('files');
-                    $file->blog_id = $blog->id;
-                    $file->path = $fname;
-                    $file->oriname = $value->getClientOriginalName();
-                    $file->save();
-                }
-            }
+            $this->destroyFiles($request->file('file'));
+            $this->storeFiles($request->file('file'), $blog);
         }
         return redirect()->route('blog.show', $blog->id);
     }
@@ -104,5 +69,29 @@ class BlogController extends Controller
             'subject' => 'required',
             'content' => 'required',
         ]);
+    }
+
+    protected function storeFiles($files, $post){
+        foreach ($files as $key => $value) {
+            if($value->isValid()){
+                $file = new File;
+                $fname = $value->store('files');
+                $file->blog_id = $post->id;
+                $file->path = $fname;
+                $file->oriname = $value->getClientOriginalName();
+                $file->save();
+            }
+        }
+    }
+
+    protected function destroyFiles($files){
+        foreach ($files as $key => $value) {
+            $file = new File;
+            $target = $file->find($key);
+            if(isset($target->path)){
+                Storage::delete($target->path);
+                $target->delete();
+            }
+        }
     }
 }
