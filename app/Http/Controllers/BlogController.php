@@ -12,7 +12,7 @@ class BlogController extends Controller
     public function index(Blog $blog)
     {
         $blog = new Blog;
-        $posts = $blog->paginate();
+        $posts = $blog->orderBy('id', 'desc')->paginate();
         foreach ($posts as $key => $post) {
             $post->thumb = $post->files->whereIn('extension', ['jpg', 'png', 'gif'])->sortByDesc('id');
         }
