@@ -6,6 +6,8 @@ use App\Blog;
 use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class BlogController extends Controller
 {
@@ -70,10 +72,12 @@ class BlogController extends Controller
     }
 
     protected function postValidate(){
-        return request()->validate([
+        $validated = request()->validate([
             'subject' => 'required',
             'content' => 'required',
         ]);
+
+        return Arr::add($validated, 'user_id', Auth::id());
     }
 
     protected function storeFiles($files, $post){

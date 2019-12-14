@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+    @if(count($posts) == 0)
+    게시글이 없습니다.
+    @endif
     @foreach($posts as $post)
     <div class="card mb-3">
         <div class="row no-gutters">
@@ -14,13 +17,17 @@
                     <h5 class="card-title">{{ $post->subject}}</h5>
                 </a>
                 <p class="card-text">{{ $post->content }}</p>
-                <p class="card-text"><small class="text-muted">{{ $post->created_at }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ $post->created_at }} | {{ $post->user->name }}</small></p>
             </div>
             </div>
         </div>
     </div>
     @endforeach
+
+    @if(Auth::check())
     <div class='mt-3'>
         <a name="" id="" class="btn btn-primary" href="{{ route('blog.create') }}" role="button">글쓰기</a>
     </div>
+    @endif
+
 @endsection

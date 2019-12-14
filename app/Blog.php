@@ -10,4 +10,8 @@ class Blog extends Model
     public function files(){
         return $this->hasMany('App\File');
     }
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }
