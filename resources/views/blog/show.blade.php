@@ -17,7 +17,7 @@
     </div>
     <div class='mt-3'>
         <a name="" id="" class="btn btn-secondary" href="{{ route('blog.index') }}" role="button">목록보기</a>
-        @if(Auth::id() == $post->id)
+        @if(Auth::id() == $post->user->id)
         <a name="" id="" class="btn btn-primary" href="{{ route('blog.edit', $post->id) }}" role="button">수정하기</a>
         <a name="" id="" class="btn btn-danger" href="#" role="button" onClick="event.preventDefault();
                                                                                 document.getElementById('delete-form').submit()">삭제하기</a>
