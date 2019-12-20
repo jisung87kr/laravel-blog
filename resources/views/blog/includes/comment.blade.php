@@ -1,9 +1,7 @@
 @foreach($comments as $comment)
 <div class="card mb-3">
-    <div class="card-header">
-        {{ $comment->created_at }}
-    </div>
     <div class="card-body">
+        <small class="text-muted">{{ $comment->created_at }}</small>
         <p class="card-text">{{ $comment->content }}</p>
     </div>
     <div class="card-footer text-muted">
