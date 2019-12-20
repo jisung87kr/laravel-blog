@@ -24,7 +24,7 @@
     </div>
     @endforeach
 
-    {{ $posts->links() }}
+    {{ $posts->onEachSide(2)->links() }}
 
     @if(Auth::check())
     <div class='mt-3'>
