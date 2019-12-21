@@ -17,9 +17,11 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->text('content');
             $table->unsignedBigInteger('blog_id');
-            $table->unsignedBigInteger('order');
+            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('comment_order');
             $table->unsignedBigInteger('depth');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
         });
