@@ -19,6 +19,9 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
+        request()->validate([
+            'content' => 'required'
+        ]);
         $comment = new Comment;
         $comment->content = $request->content;
         $comment->blog_id = $request->blog_id;
@@ -35,12 +38,17 @@ class CommentController extends Controller
 
     public function edit(Comment $comment)
     {
-        //
+        return view('blog.comment_edit', ['comment' => $comment]);
     }
 
     public function update(Request $request, Comment $comment)
     {
-        //
+        request()->validate([
+            'content' => 'required'
+        ]);
+        $comment->content = $request->content;
+        $comment->save();
+        return redirect()->route('blog.show', $comment->blog->id);
     }
 
     public function destroy(Comment $comment)

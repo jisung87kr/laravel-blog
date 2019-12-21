@@ -27,5 +27,6 @@
             @method('DELETE')
         </form>
     </div>
-@include('blog.includes.comment', ['id' => $post->id, 'comments' => $comments])
+@include('blog.includes.comment_list', ['comments' => $comments])
+@include('blog.includes.comment_create', ['id' => $post->id])
 @endsection
