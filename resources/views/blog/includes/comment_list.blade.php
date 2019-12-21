@@ -3,8 +3,13 @@
     <div class="card mb-3">
         <div class="card-body">
             <small class="text-muted">{{ $comment->created_at }}</small>
+            @if($comment->trashed())
+            <p class="card-text text-muted">삭제된 게시물입니다.</p>
+            @else
             <p class="card-text">{{ $comment->content }}</p>
+            @endif
         </div>
+        @if(!$comment->trashed())
         <div class="card-footer text-muted">
             <a href="{{ route('blog.comment.edit', $comment->id) }}">수정</a>
             <a href="#" onClick="event.preventDefault();
@@ -15,6 +20,7 @@
             @csrf
             @method('DELETE')
         </form>
+        @endif
     </div>
 </div>
 @endforeach
