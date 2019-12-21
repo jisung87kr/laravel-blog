@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -17,23 +18,41 @@ class CommentController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Comment $comment)
     {
         request()->validate([
             'content' => 'required'
         ]);
-        $comment = new Comment;
-        $comment->content = $request->content;
-        $comment->blog_id = $request->blog_id;
-        $comment->order = 0;
-        $comment->depth = 0;
-        $comment->save();
+        $cmt = new Comment;
+        if($comment->id){
+            $comment_order_max = $cmt->where('parent_id', $comment->id)->where('depth', $comment->depth+1)->max('comment_order');
+            if($comment_order_max == null){
+                $comment_order_max = $comment->comment_order;
+            };
+
+            $comment_order = $comment_order_max+1;
+            DB::update('update comments set comment_order = comment_order+1 where blog_id = ? and comment_order > ?', [$request->blog_id, $comment_order_max]);
+            $depth = ($comment->depth)+1;
+            $cmt->parent_id = $comment->id;
+        } else {
+            $comment_order = $cmt->max('comment_order')+1;
+            $depth = 0;
+            $cmt->parent_id = 0;
+        }
+        
+        $cmt->content = $request->content;
+        $cmt->blog_id = $request->blog_id;
+        $cmt->comment_order = $comment_order;
+        $cmt->depth = $depth;
+        $cmt->save();
+        $cmt->where('depth', 0)->where('id', $cmt->id)->update(['parent_id' => $cmt->id]);
+        
         return redirect()->route('blog.show', $request->blog_id);
     }
 
-    public function show(Comment $comment)
+    public function comment(Comment $comment)
     {
-        //
+        return view('blog.comment', ['post' => $comment->blog,'comment' => $comment]);
     }
 
     public function edit(Comment $comment)

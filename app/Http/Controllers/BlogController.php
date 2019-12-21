@@ -39,7 +39,7 @@ class BlogController extends Controller
     {
         return view('blog.show', [
             'post' => $blog,
-            'comments' => $blog->comments
+            'comments' => $blog->comments->sortby('comment_order')
             ]);
     }
 

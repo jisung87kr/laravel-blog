@@ -23,7 +23,8 @@ Route::get('/blog/{blog}/edit', 'BlogController@edit')->name('blog.edit');
 Route::put('/blog/{blog}', 'BlogController@update')->name('blog.update');
 Route::delete('/blog/{blog}', 'BlogController@destroy')->name('blog.destroy');
 
-Route::post('/blog/comment', 'CommentController@store')->name('blog.comment.store');
+Route::post('/blog/comment/{comment?}', 'CommentController@store')->name('blog.comment.store');
+Route::get('/blog/comment/{comment}/re', 'CommentController@comment')->name('blog.comment.comment');
 Route::get('/blog/comment/{comment}/edit', 'CommentController@edit')->name('blog.comment.edit');
 Route::put('/blog/comment/{comment}', 'CommentController@update')->name('blog.comment.update');
 Route::delete('/blog/comment/{comment}', 'CommentController@destroy')->name('blog.comment.destroy');

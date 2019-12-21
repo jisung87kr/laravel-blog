@@ -3,7 +3,7 @@
 <form action="{{ route('blog.comment.update', $comment->id) }}" method="POST">
     @csrf
     @method('PUT')
-    <input type="hidden" name="blog_id" value="{{ $comment->id }}">
+    <input type="hidden" name="blog_id" value="{{ $comment->blog->id }}">
     <div class="form-group">
         <textarea class="form-control  @error('content') is-invalid @enderror" name="content" id="" rows="3">{{ $comment->content }}</textarea>
         @error('content')
