@@ -29,3 +29,15 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 @endsection
+<script>
+window.onload = function(){
+    ckeditor
+    .create( document.querySelector( '#content' ) )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
+}
+</script>

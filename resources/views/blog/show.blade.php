@@ -12,7 +12,7 @@
                 @endforeach
                 </div>
             @endif
-            <p class="card-text">{{ $post->content }}</p>
+            <p class="card-text">{!! $post->content !!}</p>
         </div>
     </div>
     <div class='mt-3 mb-3'>
