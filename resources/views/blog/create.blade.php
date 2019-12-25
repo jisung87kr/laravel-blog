@@ -29,15 +29,10 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 @endsection
+<script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
 <script>
-window.onload = function(){
-  Ckeditor
-    .create( document.querySelector( '#content' ) )
-    .then( editor => {
-        console.log( editor );
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
-}
+CKEDITOR.replace('content', {
+  filebrowserUploadUrl : "{{ route('editor.upload') }}",
+  filebrowserUploadMethod: 'form'
+});
 </script>
