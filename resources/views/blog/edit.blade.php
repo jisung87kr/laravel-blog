@@ -39,16 +39,11 @@
         <a name="" id="" class="btn btn-secondary" href="{{ url()->previous() }}" role="button">취소</a>
         <button type="submit" class="btn btn-primary">저장</button>
     </form>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script>
+    CKEDITOR.replace('content', {
+      filebrowserUploadUrl : "{{ route('editor.upload') }}",
+      filebrowserUploadMethod: 'form'
+    });
+    </script>
 @endsection
-<script>
-window.onload = function(){
-    ckeditor
-    .create( document.querySelector( '#content' ) )
-    .then( editor => {
-        console.log( editor );
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
-}
-</script>

@@ -29,6 +29,14 @@ Route::get('/blog/comment/{comment}/edit', 'CommentController@edit')->name('blog
 Route::put('/blog/comment/{comment}', 'CommentController@update')->name('blog.comment.update');
 Route::delete('/blog/comment/{comment}', 'CommentController@destroy')->name('blog.comment.destroy');
 
+Route::post('/editor/upload', function(){
+    $fname = request()->upload->store('editor');
+    $funcNum = request()->CKEditorFuncNum;
+    $url = asset($fname);
+    $message = 'uploaded';
+    echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
+})->name('editor.upload');
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 

@@ -39,5 +39,3 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-window.ckeditor = require('@ckeditor/ckeditor5-build-classic');

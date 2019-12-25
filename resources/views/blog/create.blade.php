@@ -31,7 +31,7 @@
 @endsection
 <script>
 window.onload = function(){
-    ckeditor
+  Ckeditor
     .create( document.querySelector( '#content' ) )
     .then( editor => {
         console.log( editor );
