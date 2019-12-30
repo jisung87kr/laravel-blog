@@ -28,11 +28,11 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <script src="{{ asset('ckeditor4/ckeditor.js') }}"></script>
+    <script>
+    CKEDITOR.replace('content', {
+      filebrowserUploadUrl : "{{ route('editor.upload') }}",
+      filebrowserUploadMethod: 'form'
+    });
+    </script>
 @endsection
-<script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
-<script>
-CKEDITOR.replace('content', {
-  filebrowserUploadUrl : "{{ route('editor.upload') }}",
-  filebrowserUploadMethod: 'form'
-});
-</script>
