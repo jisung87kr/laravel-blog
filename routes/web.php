@@ -37,6 +37,11 @@ Route::post('/editor/upload', function(){
     echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
 })->name('editor.upload');
 
+Route::get('/mypage', 'MypageController@index')->name('mypage.index');
+Route::get('/mypage/blog', 'MypageController@blog')->name('mypage.blog');
+Route::get('/mypage/comment', 'MypageController@comment')->name('mypage.comment');
+Route::get('/mypage/user', 'MypageController@user')->name('mypage.user');
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
